@@ -1,21 +1,21 @@
 # Webhome 1.0
 данная утилита позволит сделать ваши веб-странички доступными в интернете
 ## установка
-'''
+<code>
 git clone https://github.com/MISHA35656/webhome.git
 cd webhome
-'''
+</code>
 ## запуск
-'''
+<code>
 cd webhome
 source ./env/bin/activate # Для Linux, пользователи Windows могут пропустить этот шаг
 env/bin/activate.bat # Для Windows, пользователи Linux могут пропустить этот шаг
 python3 main.py # Вместо python3 введите python если вы пользуетесь Windows
 '''
 вы можете также указать порт, если у вас нет привелегий на порт 80:
-'''
+<code>
 python3 main.py --port=[ПОРТ]
-'''
+</code>
 ## скриншоты
 <img src="https://github.com/MISHA35656/webhome/blob/main/demo.png?raw=true">
 ## особенности
