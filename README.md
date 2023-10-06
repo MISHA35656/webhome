@@ -28,6 +28,3 @@ python3 main.py --port=[ПОРТ]
 </ul>
 ## куда перевести на чай?
 у нас нет карты для переводов. нам будет достаточно обычного спасибо по адресу <a href="mailto:msh356@yandex.by">msh356@yandex.by</a>
-<script>
-alert("Hi :)")
-</script>
