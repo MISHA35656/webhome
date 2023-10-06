@@ -1,29 +1,53 @@
 try:
 	print("импортируем модули...")
-	from flask import Flask, send_from_directory
+	from flask import Flask, send_from_directory, abort
+	from sys import argv
+	
+	print("парсим все параметры командной строки...")
+	
+	for i in range(2, len(argv) - 1):
+		if argv[i].startswith("--help") == True:
+			print("webhome 1.00 - создайте вашу личную веб-страничку")
+			print("  --port=[ПОРТ] - использовать другой порт вместо")
+			print("                  80. помогает, если у вас нет   ")
+			print("                  привилегий для запуска на порту")
+			print("                  80                             ")
+			print("  --version - показать версию и выйти            ")
+			exit("  --help - показать этот вывод и выйти           ")
+	
+	port = 80
+	
+	for arg in argv:
+		if arg.startswith("--port"):
+			print(int(arg.split("=")[1]))
+			port = int(arg.split("=")[1])
+	
+	print(str(port))
 	
 	print("создаём приложение...")
 	app = Flask(__name__)
 	
 	print("создаём маршруты... ", end="")
-	@app.route('/')
-	def index():
-		try:
-			return send_from_directory('.', 'index.html')
-		except FileNotFoundError:
-			return send_from_directory('.', '404.html') 
-	print("index.html ", end="")
-	
+
+	@app.route('/', defaults={'path': ''})
+	@app.route('/<path:path>')
 	@app.route('/<path:filename>')
 	def get_file(filename):
 		if 'hide' in filename:
 			return send_from_directory('.', '403.html')
-		return send_from_directory('.', filename)
-	print("остальное" end="\n")
+		try:
+			return send_from_directory('.', filename)
+		except FileNotFoundError:
+			return send_from_directory('.', '404.html')
+		
+	@app.errorhandler(404)
+	def not_found(error):
+		return send_from_directory('.', '404.html')
+		
 	if __name__ == '__main__':
 		try:
 			print("запуск приложения...")
-			run_simple('0.0.0.0', 80, app, use_reloader=True)
+			app.run('0.0.0.0', port)
 		except PermissionError:
 			print("ошибка: нет привилегий для работы на порту 80. попробуйте:")
 			print("  * запустить программу от лица root, вставив sudo перед  ")
